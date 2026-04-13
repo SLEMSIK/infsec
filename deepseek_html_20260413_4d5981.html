@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Цифровой компас · Медиаграмотность и защита</title>
+  <!-- Шрифты и иконки -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f7fe;
+      color: #1a1e2b;
+      line-height: 1.5;
+      padding: 16px 12px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .main-container {
+      max-width: 1300px;
+      width: 100%;
+    }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 28px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #1e40af;
+      font-weight: 600;
+      font-size: clamp(0.8rem, 3vw, 0.95rem);
+      padding: 6px 14px;
+      border-radius: 40px;
+      margin-bottom: 14px;
+      border: 1px solid #cbd5e1;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 8vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(145deg, #0f172a, #1e293b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .subhead {
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      color: #334155;
+      max-width: 750px;
+      border-left: 5px solid #2563eb;
+      padding-left: 18px;
+      font-weight: 400;
+    }
+
+    /* Навигация по разделам */
+    .section-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      margin: 24px 0 20px;
+    }
+    .section-nav a {
+      background: white;
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #1e293b;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+      border: 1px solid #e2e8f0;
+      transition: all 0.15s;
+      font-size: clamp(0.85rem, 3.5vw, 1rem);
+      white-space: nowrap;
+    }
+    .section-nav a i {
+      margin-right: 6px;
+      color: #2563eb;
+    }
+    .section-nav a:hover {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+    .section-nav a:hover i {
+      color: white;
+    }
+
+    /* Тестовая зона */
+    .test-card {
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 28px;
+      padding: 24px 18px;
+      margin: 24px 0 32px;
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow: 0 20px 35px -10px rgba(0,20,50,0.1);
+    }
+
+    @media (min-width: 640px) {
+      body { padding: 24px 20px; }
+      .test-card { padding: 30px 28px; border-radius: 36px; }
+    }
+
+    .test-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .test-header i {
+      font-size: clamp(2rem, 6vw, 2.8rem);
+      color: #2563eb;
+      background: #e6edff;
+      padding: 12px;
+      border-radius: 24px;
+    }
+    .test-header h2 {
+      font-size: clamp(1.5rem, 6vw, 2rem);
+      font-weight: 700;
+    }
+
+    .question-box {
+      margin-bottom: 24px;
+    }
+    .q-text {
+      font-weight: 600;
+      font-size: clamp(1.1rem, 4.5vw, 1.3rem);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .option {
+      background: white;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 60px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-weight: 500;
+      font-size: clamp(0.9rem, 3.5vw, 1rem);
+      word-break: break-word;
+    }
+    .option:hover {
+      border-color: #2563eb;
+      background: #f8faff;
+    }
+    .option.selected {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: white;
+    }
+    .option input {
+      display: none;
+    }
+    .option-prefix {
+      font-weight: 700;
+      margin-right: 16px;
+      min-width: 28px;
+    }
+
+    .test-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+      gap: 12px;
+    }
+    .btn {
+      background: white;
+      border: 1px solid #cbd5e1;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px -2px rgba(0,0,0,0.03);
+      font-size: clamp(0.9rem, 3.5vw, 1rem);
+      flex: 0 1 auto;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: white;
+      box-shadow: 0 8px 16px -6px #1e3a8a80;
+    }
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+    #progressIndicator {
+      align-self: center;
+      font-weight: 600;
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    .result-area {
+      margin-top: 28px;
+      padding: 20px 18px;
+      background: #f1f5f9;
+      border-radius: 24px;
+      display: none;
+    }
+    .result-badge {
+      font-size: clamp(1.5rem, 6vw, 2rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .advice-list {
+      margin-top: 16px;
+      padding-left: 20px;
+    }
+    .advice-list li {
+      margin-bottom: 10px;
+      font-size: clamp(0.9rem, 3.5vw, 1rem);
+    }
+
+    /* Карточки проблем */
+    .section-title {
+      font-size: clamp(1.8rem, 6vw, 2.2rem);
+      font-weight: 700;
+      margin: 40px 0 20px;
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 600px) {
+      .problem-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1000px) {
+      .problem-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .problem-card {
+      background: white;
+      border-radius: 24px;
+      padding: 22px 18px;
+      box-shadow: 0 10px 24px -6px rgba(0,0,0,0.04);
+      border: 1px solid #eef2f6;
+      transition: transform 0.2s;
+    }
+    .problem-card:hover { transform: translateY(-3px); }
+    .problem-icon {
+      font-size: clamp(1.8rem, 5vw, 2.2rem);
+      margin-bottom: 16px;
+      color: #dc2626;
+    }
+    .problem-card h3 { 
+      font-size: clamp(1.3rem, 5vw, 1.6rem); 
+      margin-bottom: 10px; 
+    }
+    .problem-card p {
+      font-size: clamp(0.9rem, 3.5vw, 1rem);
+      color: #334155;
+      margin-bottom: 12px;
+    }
+    .do-section { margin-top: 16px; }
+    .do-title { 
+      font-weight: 700; 
+      margin: 14px 0 6px; 
+      font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+    }
+    .problem-card ul {
+      margin-left: 20px;
+      color: #2c3e50;
+      font-size: clamp(0.85rem, 3vw, 0.95rem);
+    }
+    .problem-card li {
+      margin-bottom: 6px;
+    }
+
+    /* Памятка в кармане (таблица) */
+    .memo-wrapper {
+      background: white;
+      border-radius: 28px;
+      padding: 16px 12px;
+      box-shadow: 0 12px 28px -8px rgba(0,0,0,0.05);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 28px 0;
+    }
+    @media (min-width: 640px) {
+      .memo-wrapper { padding: 24px 20px; border-radius: 32px; }
+    }
+    .memo-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 680px;
+      font-size: clamp(0.8rem, 3vw, 0.95rem);
+    }
+    .memo-table th {
+      text-align: left;
+      padding: 14px 12px;
+      background: #1e293b;
+      color: white;
+      font-size: clamp(1rem, 4vw, 1.3rem);
+    }
+    .memo-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    .memo-table tr:last-child td { border-bottom: none; }
+
+    /* Горячая линия */
+    .hotline {
+      background: linear-gradient(135deg, #0b1120, #1e293b);
+      border-radius: 32px;
+      padding: 32px 24px;
+      margin: 40px 0 30px;
+      color: white;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .hotline h3 { 
+      font-size: clamp(1.5rem, 6vw, 2rem); 
+      font-weight: 700; 
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .hotline p {
+      font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+      opacity: 0.9;
+      margin: 10px 0 8px;
+    }
+    .hotline-phone {
+      font-size: clamp(1.8rem, 8vw, 3rem);
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: #facc15;
+      color: #0f172a;
+      padding: 10px 24px;
+      border-radius: 60px;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .hotline .info-text {
+      font-size: clamp(0.95rem, 3.5vw, 1.2rem);
+      max-width: 300px;
+    }
+
+    .footer {
+      margin-top: 36px;
+      text-align: center;
+      color: #64748b;
+      font-size: clamp(0.8rem, 3vw, 0.95rem);
+      padding-bottom: 16px;
+    }
+
+    /* Мелкие правки для мобильных */
+    @media (max-width: 480px) {
+      .section-nav a {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+      }
+      .btn {
+        padding: 12px 16px;
+      }
+      .option {
+        padding: 12px 14px;
+      }
+      .test-nav {
+        flex-wrap: wrap;
+      }
+      #progressIndicator {
+        order: 1;
+        width: 100%;
+        text-align: center;
+        margin: 8px 0;
+      }
+      .hotline-phone {
+        white-space: normal;
+        word-break: break-all;
+      }
+    }
+
+    /* Улучшение кликабельности */
+    .option, .btn, .section-nav a {
+      touch-action: manipulation;
+    }
+  </style>
+</head>
+<body>
+<div class="main-container">
+  
+  <!-- Hero -->
+  <div class="hero">
+    <span class="badge"><i class="fas fa-compass" style="margin-right: 6px;"></i>Твой цифровой компас</span>
+    <h1>Навигатор по медиаграмотности</h1>
+    <div class="subhead">Интерактивный тест, решения проблем и памятки — чтобы ты был в безопасности.</div>
+  </div>
+
+  <!-- Меню быстрых ссылок -->
+  <div class="section-nav">
+    <a href="#test"><i class="fas fa-clipboard-check"></i>Тест</a>
+    <a href="#problems"><i class="fas fa-life-ring"></i>Проблемы</a>
+    <a href="#memo"><i class="fas fa-book-open"></i>Памятка</a>
+    <a href="#hotline"><i class="fas fa-phone-alt"></i>Горячая линия</a>
+  </div>
+
+  <!-- ===== ТЕСТ ===== -->
+  <div id="test" class="test-card">
+    <div class="test-header">
+      <i class="fas fa-shield-question"></i>
+      <h2>Насколько ты медиаграмотен?</h2>
+    </div>
+    <div id="quizArea">
+      <div class="question-box">
+        <div class="q-text" id="questionText">Загрузка...</div>
+        <div class="options" id="optionsContainer"></div>
+      </div>
+      <div class="test-nav">
+        <button class="btn" id="prevBtn" disabled><i class="fas fa-arrow-left"></i> Назад</button>
+        <span id="progressIndicator">1/5</span>
+        <button class="btn btn-primary" id="nextBtn">Далее</button>
+      </div>
+    </div>
+    <div id="resultArea" class="result-area"></div>
+  </div>
+
+  <!-- ===== ПРОБЛЕМА? ЕСТЬ РЕШЕНИЕ! ===== -->
+  <h2 id="problems" class="section-title"><i class="fas fa-bug" style="margin-right: 12px;"></i>Проблема? Есть решение!</h2>
+  <div class="problem-grid">
+    <!-- Карточка 1: Кибербуллинг -->
+    <div class="problem-card">
+      <div class="problem-icon"><i class="fas fa-message-slash"></i></div>
+      <h3>Кибербуллинг</h3>
+      <p>Оскорбления, угрозы, ложь в сети.</p>
+      <div class="do-section">
+        <div class="do-title"><i class="fas fa-exclamation-triangle" style="color:#b45309;"></i> Что делать прямо сейчас?</div>
+        <ul>
+          <li>Не отвечай агрессией</li>
+          <li>Сохрани скриншоты</li>
+          <li>Заблокируй агрессора</li>
+          <li>Расскажи взрослому</li>
+        </ul>
+        <div class="do-title"><i class="fas fa-shield"></i> Как защититься в будущем?</div>
+        <ul>
+          <li>Настрой приватность</li>
+          <li>Скрывай личные данные</li>
+        </ul>
+      </div>
+    </div>
+    <!-- Карточка 2: Странные ссылки -->
+    <div class="problem-card">
+      <div class="problem-icon"><i class="fas fa-link-slash"></i></div>
+      <h3>Странные ссылки / вирусы</h3>
+      <p>Фишинг, фальшивые игры, "лёгкий заработок".</p>
+      <div class="do-section">
+        <div class="do-title">⚡ Сейчас:</div>
+        <ul><li>Не переходи по ссылке</li><li>Удали подозрительные файлы</li><li>Проверь антивирус</li></ul>
+        <div class="do-title">🛡️ На будущее:</div>
+        <ul><li>Приложения только из официальных магазинов</li><li>Антивирус + обновления</li><li>Бесплатный сыр — в мышеловке</li></ul>
+      </div>
+    </div>
+    <!-- Карточка 3: Взлом аккаунта -->
+    <div class="problem-card">
+      <div class="problem-icon"><i class="fas fa-user-lock"></i></div>
+      <h3>Взлом / кража данных</h3>
+      <p>Доступ к соцсетям, спам, шантаж.</p>
+      <div class="do-section">
+        <div class="do-title">⚡ Сейчас:</div>
+        <ul><li>«Забыли пароль?»</li><li>Выйди на всех устройствах</li><li>Предупреди друзей</li></ul>
+        <div class="do-title">🛡️ На будущее:</div>
+        <ul><li>Сложные пароли</li><li>Двухфакторная аутентификация (2FA)</li><li>Проверяй адрес сайта</li></ul>
+      </div>
+    </div>
+    <!-- Карточка 4: Груминг / опасный контент -->
+    <div class="problem-card">
+      <div class="problem-icon"><i class="fas fa-eye-slash"></i></div>
+      <h3>Груминг и опасный контент</h3>
+      <p>Взрослые манипулируют, просят личное.</p>
+      <div class="do-section">
+        <div class="do-title">⚡ Сейчас:</div>
+        <ul><li>Прекрати общение</li><li>Заблокируй</li><li>Расскажи родителям (это не стукачество!)</li></ul>
+        <div class="do-title">🛡️ На будущее:</div>
+        <ul><li>Закрывай профили</li><li>Не добавляй незнакомцев</li><li>Настоящие друзья не просят интимные фото/данные карт</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ПАМЯТКА В КАРМАНЕ (таблица) ===== -->
+  <h2 id="memo" class="section-title"><i class="fas fa-id-card"></i> Памятка в кармане</h2>
+  <div class="memo-wrapper">
+    <table class="memo-table">
+      <thead><tr><th>🧑‍🎓 Для подростков</th><th>👩‍🏫 Для учителей</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Будьте внимательны к источнику информации.</strong> Проверяйте, откуда пришла новость.</td><td><strong>Организовывайте регулярное обучение медиаграмотности.</strong> Включайте занятия по проверке достоверности.</td></tr>
+        <tr><td><strong>Критически относитесь к контенту.</strong> Задавайте вопросы: зачем, кто автор, цели.</td><td><strong>Разбирайте реальные кейсы.</strong> Обсуждайте фальсификации и пропаганду.</td></tr>
+        <tr><td><strong>Сознательно управляйте персональными данными.</strong> Настройки приватности.</td><td><strong>Используйте интерактивные методы.</strong> Дебаты, моделирование ситуаций.</td></tr>
+        <tr><td><strong>Осваивайте искусство факт-чекинга.</strong> Проверяйте факты перед репостом.</td><td><strong>Привлекайте приглашенных экспертов.</strong> Журналисты, полиция, психологи.</td></tr>
+        <tr><td><strong>Противодействуйте кибербуллингу.</strong> Не участвуйте в травле, обращайтесь к взрослым.</td><td><strong>Применяйте творческие подходы.</strong> Медиа-проекты, документальные ролики.</td></tr>
+        <tr><td><strong>Формируйте собственное мнение.</strong> Думайте самостоятельно.</td><td><strong>Мониторьте обстановку в классе.</strong> Конфликты в соцсетях решайте оперативно.</td></tr>
+        <tr><td><strong>Проявляйте уважение к другим.</strong> Интернет — общественное пространство.</td><td><strong>Работайте с семьями учеников.</strong> Совместные усилия по медиаграмотности.</td></tr>
+        <tr><td><strong>Следите за здоровьем устройств.</strong> Антивирусы, обновления.</td><td><strong>Акцентируйте этическое поведение.</strong> Чёткие принципы цифровой среды.</td></tr>
+        <tr><td><strong>Регулярно отдыхайте от экрана.</strong> Чередуйте с физической активностью.</td><td><strong>Повышайте квалификацию.</strong> Курсы по медиаграмотности.</td></tr>
+        <tr><td><strong>Будьте аккуратны с незнакомыми сайтами.</strong></td><td><strong>Будьте примером ответственного поведения.</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== ГОРЯЧАЯ ЛИНИЯ ===== -->
+  <div id="hotline" class="hotline">
+    <div>
+      <h3><i class="fas fa-headset"></i> Горячая линия</h3>
+      <p>Анонимно задай вопрос эксперту</p>
+      <div class="hotline-phone">8-800-2000-122</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // ----- ТЕСТ -----
+    const questions = [
+      { text: "1. Тебе в личные сообщения пишет незнакомец: «Привет! Я видел твои фото, ты классный. Хочешь заработать 5000 рублей за 5 минут? Просто перешли этот файл друзьям».", 
+        options: ["А) Скачаю файл, интересно же, что там!", "Б) Спрошу, кто он такой, и попрошу прислать фото паспорта.", "В) Заблокирую пользователя и удалю сообщение."],
+        correctIndex: 2 },
+      { text: "2. В популярном паблике опубликовали шокирующую новость: «Завтра в школе отменят все уроки!». Все твои друзья репостят это.", 
+        options: ["А) Сразу репостну, чтобы все узнали!", "Б) Поищу подтверждение на официальном сайте школы или в новостях.", "В) Напишу в комментариях: «Это правда?»."],
+        correctIndex: 1 },
+      { text: "3. Одноклассник создал фейковую страницу от твоего имени и пишет от тебя гадости другим. Твои действия?", 
+        options: ["А) Создам такую же страницу и буду мстить.", "Б) Пожалуюсь на страницу администрации соцсети и расскажу родителям/учителю.", "В) Попробую договориться с ним лично."],
+        correctIndex: 1 },
+      { text: "4. Тебе пришло письмо на почту: «Ваш аккаунт взломан! Срочно смените пароль по этой ссылке». Ссылка выглядит странно (например, vk-security-login123.com).", 
+        options: ["А) Перейду по ссылке и введу старый пароль.", "Б) Введу пароль прямо в письме.", "В) Удалю письмо. Если переживаю — зайду в настройки через официальное приложение."],
+        correctIndex: 2 },
+      { text: "5. Ты видишь, как в общем чате травят новенького ученика. Все смеются над его сообщениями.", 
+        options: ["А) Посмеюсь вместе со всеми.", "Б) Напишу в личку жертве слова поддержки.", "В) Напишу в общий чат: «Ребят, это не смешно», или пожалуюсь модератору."],
+        correctIndex: 2 }
+    ];
+
+    let currentQ = 0;
+    let answers = new Array(5).fill(null);
+    const qText = document.getElementById('questionText');
+    const optionsDiv = document.getElementById('optionsContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressSpan = document.getElementById('progressIndicator');
+    const resultArea = document.getElementById('resultArea');
+    const quizArea = document.getElementById('quizArea');
+
+    function renderQuestion(index) {
+      const q = questions[index];
+      qText.textContent = q.text;
+      let html = '';
+      q.options.forEach((opt, i) => {
+        const letter = String.fromCharCode(65+i);
+        const checked = answers[index] === i ? 'selected' : '';
+        html += `<div class="option ${checked}" data-opt-index="${i}">
+                  <span class="option-prefix">${letter})</span> ${opt}
+                </div>`;
+      });
+      optionsDiv.innerHTML = html;
+      document.querySelectorAll('.option').forEach(optEl => {
+        optEl.addEventListener('click', () => {
+          const idx = parseInt(optEl.dataset.optIndex);
+          answers[currentQ] = idx;
+          renderQuestion(currentQ);
+        });
+      });
+      progressSpan.textContent = `${index+1}/${questions.length}`;
+      prevBtn.disabled = (index === 0);
+      if (index === questions.length-1) {
+        nextBtn.innerHTML = 'Завершить <i class="fas fa-check"></i>';
+      } else {
+        nextBtn.innerHTML = 'Далее <i class="fas fa-arrow-right"></i>';
+      }
+    }
+
+    function calculateResult() {
+      let countA = 0, countB = 0, countV = 0;
+      answers.forEach((ans) => {
+        if (ans === 0) countA++;
+        else if (ans === 1) countB++;
+        else if (ans === 2) countV++;
+      });
+      let badge = '', advice = '';
+      if (countA >= countB && countA >= countV) {
+        badge = '🚨 Осторожно! Ты в зоне риска';
+        advice = `<ul class="advice-list"><li>⏸️ Пауза перед кликом. Спроси: «Зачем мне это прислали?»</li><li>📰 Не верь заголовкам — проверяй в двух источниках.</li><li>🛑 Правило «Стоп»: если гнев или страх — выйди из сети на 5 минут.</li></ul>`;
+      } else if (countB >= countA && countB >= countV) {
+        badge = '🤔 Ты на верном пути, но осторожничаешь';
+        advice = `<ul class="advice-list"><li>🤐 Не корми троллей — игнорирование лучшая защита.</li><li>🔐 Цифровая гигиена: сложные пароли и 2FA.</li><li>💪 Будь смелее: молчание при травле — согласие. Поддержи жертву.</li></ul>`;
+      } else {
+        badge = '🛡️ Эксперт по безопасности';
+        advice = `<ul class="advice-list"><li>📢 Помоги другу: поделись памяткой.</li><li>🌟 Стань лидером мнений — веди блог о грамотности.</li><li>📡 Следи за обновлениями: мошенники придумывают новые схемы.</li></ul>`;
+      }
+      return { badge, advice };
+    }
+
+    function showResultScreen() {
+      const res = calculateResult();
+      resultArea.style.display = 'block';
+      resultArea.innerHTML = `<div class="result-badge">${res.badge}</div>${res.advice}`;
+      quizArea.style.display = 'none';
+      const restartBtn = document.createElement('button');
+      restartBtn.className = 'btn btn-primary';
+      restartBtn.style.marginTop = '24px';
+      restartBtn.innerHTML = '<i class="fas fa-rotate-left"></i> Пройти заново';
+      restartBtn.addEventListener('click', () => { 
+        answers = new Array(5).fill(null);
+        currentQ = 0;
+        quizArea.style.display = 'block';
+        resultArea.style.display = 'none';
+        resultArea.innerHTML = '';
+        renderQuestion(0);
+      });
+      resultArea.appendChild(restartBtn);
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (answers[currentQ] === null) {
+        alert('Пожалуйста, выбери вариант ответа.');
+        return;
+      }
+      if (currentQ === questions.length-1) {
+        showResultScreen();
+      } else {
+        currentQ++;
+        renderQuestion(currentQ);
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentQ > 0) {
+        currentQ--;
+        renderQuestion(currentQ);
+      }
+    });
+
+    // Плавный скролл для якорей
+    document.querySelectorAll('.section-nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const hash = link.getAttribute('href');
+        if(hash && hash!=='#') {
+          e.preventDefault();
+          const target = document.querySelector(hash);
+          if(target) {
+            target.scrollIntoView({behavior:'smooth', block:'start'});
+          }
+        }
+      });
+    });
+
+    // Старт
+    renderQuestion(0);
+  })();
+</script>
+</body>
+</html>
